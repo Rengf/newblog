@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 var User = require('../models/user');
+var Category = require('../models/category')
 
 //统一返回格式
 var responseData;
@@ -96,6 +97,125 @@ router.get('/user/delete', function(req, res, next) {
     }).then(function() {
         responseData.code = 0;
         responseData.message = '用户删除成功';
+        res.json(responseData);
+    })
+})
+
+/*分类添加*/
+router.post('/category/add', function(req, res, next) {
+    var categoryName = req.body.categoryName || '';
+    console.log(categoryName)
+    Category.findOne({
+        categoryName: categoryName,
+    }).then(function(res) {
+        if (res) {
+            responseData.message = '已存在该类别';
+            responseData.code = 1;
+            res.json(responseData);
+            return Promise.reject();
+        } else {
+            return new Category({
+                categoryName: categoryName,
+                addTime: new Date().Format("yyyy-MM-dd HH:mm:ss"),
+            }).save();
+        }
+    }).then(function(newCategory) {
+        responseData.message = '分类添加成功';
+        responseData.code = 0;
+        res.json(responseData);
+    })
+})
+
+/*分类管理*/
+router.get('/category', function(req, res, next) {
+    var page = Number(req.query.page || 1);
+    var limit = 10;
+    var pages = 0;
+
+    Category.count().then(function(count) {
+        pages = Math.ceil(count / limit);
+        var skip = (page - 1) * limit;
+        Category.find().limit(limit).skip(skip).then(function(category) {
+            res.json({
+                userInfo: req.userInfo,
+                category: category,
+                page: page,
+                pages: pages,
+                count: count,
+                limit: limit,
+            });
+        });
+    })
+})
+
+/*分类删除*/
+router.get('/category/delete', function(req, res, next) {
+    // 获取要删除user的id
+    var id = req.query.id;
+    Category.remove({
+        _id: id,
+    }).then(function() {
+        responseData.code = 0;
+        responseData.message = '分类删除成功';
+        res.json(responseData);
+    })
+})
+
+/**编辑分类 */
+router.get('/category/edit', function(req, res, next) {
+    var id = req.body.id;
+    Category.findOne({
+        _id: id,
+    }).then(function(category) {
+        responseData.code = 0;
+        responseData.message = '分类信息';
+        responseData.category = category;
+        res.json(responseData);
+    })
+})
+
+router.post('/category/edit', function(req, res, next) {
+    var id = req.body.id;
+    var categoryName = req.body.categoryName || '';
+    console.log(id);
+    console.log(categoryName);
+    Category.findOne({
+        _id: id
+    }).then(function(category) {
+        if (!category) {
+            responseData.code = 1;
+            responseData.message = '没有该分类';
+            res.json(responseData);
+            return Promise.reject();
+        } else {
+            if (categoryName == category.categoryName) {
+                responseData.code = 0;
+                responseData.message = '修改成功';
+                res.json(responseData);
+                return Promise.reject();
+            } else {
+                return Category.findOne({
+                    _id: { $ne: id },
+                    categoryName: categoryName
+                })
+            }
+        }
+    }).then(function(sameCategory) {
+        if (sameCategory) {
+            responseData.code = 1;
+            responseData.message = '已有该分类';
+            res.json(responseData);
+            return Promise.reject();
+        } else {
+            return Category.update({
+                _id: id
+            }, {
+                categoryName: categoryName
+            })
+        }
+    }).then(function() {
+        responseData.code = 0;
+        responseData.message = '修改成功';
         res.json(responseData);
     })
 })

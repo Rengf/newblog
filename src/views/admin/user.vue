@@ -14,7 +14,7 @@
                     <li>{{index+1}}</li>
                     <li>{{nav.username}}</li>
                     <li>{{nav.registtime}}</li>
-                    <li class="deleteUser">
+                    <li>
                         <a @click="deleteUser(nav._id)">删除</a>
                     </li>
                 </ul>
@@ -53,7 +53,18 @@ export default {
         deleteUser(id) {
             axios.get("http://localhost:3000/admin/user/delete?id=" + id).then(
                 response => {
-                    location.reload()
+                    axios.get("http://localhost:3000/admin/user").then(
+            response => {
+                this.count = response.data.count;
+                this.limit = response.data.limit;
+                this.page = response.data.page;
+                this.pages = response.data.pages;
+                this.navs = response.data.user;
+            },
+            response => {
+                console.log("error:" + response);
+            }
+        );
                 },
                 response => {
                     console.log("error:" + response);
@@ -73,9 +84,10 @@ ul {
 }
 li {
     display: inline-block;
-    width: 300px;
+    width: 24%;
     height: 40px;
     text-align: center;
+     line-height: 40px;
 }
 .header {
     border-bottom: 2px solid #888;
