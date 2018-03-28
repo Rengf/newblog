@@ -104,7 +104,6 @@ router.get('/user/delete', function(req, res, next) {
 /*分类添加*/
 router.post('/category/add', function(req, res, next) {
     var categoryName = req.body.categoryName || '';
-    console.log(categoryName)
     Category.findOne({
         categoryName: categoryName,
     }).then(function(res) {
@@ -216,6 +215,30 @@ router.post('/category/edit', function(req, res, next) {
     }).then(function() {
         responseData.code = 0;
         responseData.message = '修改成功';
+        res.json(responseData);
+    })
+})
+
+/**添加文章 */
+router.post('/article/add', function(req, res, next) {
+    var article = req.body.categoryName || '';
+    Category.findOne({
+        categoryName: categoryName,
+    }).then(function(res) {
+        if (res) {
+            responseData.message = '已存在该类别';
+            responseData.code = 1;
+            res.json(responseData);
+            return Promise.reject();
+        } else {
+            return new Category({
+                categoryName: categoryName,
+                addTime: new Date().Format("yyyy-MM-dd HH:mm:ss"),
+            }).save();
+        }
+    }).then(function(newCategory) {
+        responseData.message = '分类添加成功';
+        responseData.code = 0;
         res.json(responseData);
     })
 })
