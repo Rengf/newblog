@@ -2,7 +2,7 @@
   <div class="warp">
   <my-header></my-header>
   <div class="content">
-      <article-list></article-list>
+      <router-view></router-view>
       <side-bar></side-bar>
   </div>
   </div>

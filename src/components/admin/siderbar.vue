@@ -12,9 +12,9 @@
             return{
                 navs:[{href:'/Admin',name:'后台首页'},
                 {href:'/User',name:'用户管理'},
-                {href:'/Category',name:'分类管理'},
-                {href:'/admin',name:'文章管理'},
-                {href:'/admin',name:'文章发布'},
+                {href:'/Categories',name:'分类管理'},
+                {href:'/ArticleManagement',name:'文章管理'},
+                {href:'/Publish',name:'文章发布'},
                 {href:'/',name:'退出后台'},
                 ],
             }

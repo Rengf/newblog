@@ -3,6 +3,7 @@ var router = express.Router();
 
 var User = require('../models/user');
 var Category = require('../models/category')
+var Article = require('../models/article')
 
 //统一返回格式
 var responseData;
@@ -220,25 +221,57 @@ router.post('/category/edit', function(req, res, next) {
 })
 
 /**添加文章 */
+router.get('/article/add', function(req, res, next) {
+    Category.find().sort({ _id: -1 }).then(function(category) {
+        res.json({
+            category: category
+        })
+    });
+})
 router.post('/article/add', function(req, res, next) {
-    var article = req.body.categoryName || '';
-    Category.findOne({
-        categoryName: categoryName,
-    }).then(function(res) {
-        if (res) {
-            responseData.message = '已存在该类别';
-            responseData.code = 1;
-            res.json(responseData);
-            return Promise.reject();
-        } else {
-            return new Category({
-                categoryName: categoryName,
-                addTime: new Date().Format("yyyy-MM-dd HH:mm:ss"),
-            }).save();
-        }
-    }).then(function(newCategory) {
-        responseData.message = '分类添加成功';
+    new Article({
+        category: req.body.category,
+        categoryName: req.body.categoryName,
+        title: req.body.title,
+        content: req.body.content,
+        author: req.body.author,
+        addTime: new Date().Format("yyyy-MM-dd HH:mm:ss"),
+    }).save().then(function(res) {
         responseData.code = 0;
+        responseData.message = '文章发布成功';
+        res.json(responseData)
+    })
+})
+
+/**文章管理 */
+router.get('/article', function(req, res, next) {
+    var page = Number(req.query.page || 1);
+    var limit = 10;
+    var pages = 0;
+
+    Article.count().then(function(count) {
+        pages = Math.ceil(count / limit);
+        var skip = (page - 1) * limit;
+        Article.find().sort({ _id: -1 }).limit(limit).skip(skip).populate('category').then(function(article) {
+            res.json({
+                article: article,
+                page: page,
+                pages: pages,
+                count: count,
+                limit: limit,
+            })
+        })
+    })
+})
+
+/**文章删除 */
+router.get('/article/delete', function(req, res, next) {
+    var id = req.query.id;
+    Article.remove({
+        _id: id,
+    }).then(function() {
+        responseData.code = 0;
+        responseData.message = '文章删除成功';
         res.json(responseData);
     })
 })

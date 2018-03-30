@@ -1,3 +1,3 @@
 var mongoose = require('mongoose');
-var contentSchema = require('../schemas/article');
-module.exports = mongoose.model('Content', contentSchema)
+var articleSchema = require('../schemas/article');
+module.exports = mongoose.model('article', articleSchema)

@@ -2,7 +2,11 @@ var mongoose = require('mongoose');
 module.exports = new mongoose.Schema({
     category: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Category',
+        ref: 'category',
+    },
+    categoryName: {
+        type: String,
+        default: ''
     },
     title: String,
     content: {
@@ -20,5 +24,9 @@ module.exports = new mongoose.Schema({
     comments: {
         type: Array,
         default: [],
+    },
+    addTime: {
+        type: String,
+        default: "2018-03-30 12:00"
     }
 });

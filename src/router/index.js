@@ -6,22 +6,27 @@ import Regist from '@/views/globle/Regist'
 import Admin from '@/views/admin/Admin'
 import Publish from '@/views/admin/Publish'
 import User from '@/views/admin/user'
-import Category from '@/views/admin/Category'
+import Categories from '@/views/admin/Category'
 import ArticleList from '@/components/home/ArticleList'
+import ArticleManagement from '@/views/admin/ArtcleManagement'
+import ArticleDetail from '@/components/home/ArticleDetail'
 
 Vue.use(Router)
 
 export default new Router({
+    mode: 'history',
     routes: [{
         path: '/',
-        name: 'Home',
         component: Home,
         children: [{
-            path: '/ArticleList',
+            path: '/',
             component: ArticleList
         }, {
             path: '/category',
             component: ArticleList
+        }, {
+            path: '/ArticleDetail',
+            component: ArticleDetail
         }]
     }, {
         path: '/Login',
@@ -46,9 +51,13 @@ export default new Router({
             name: 'User',
             component: User
         }, {
-            path: '/Category',
-            name: 'Category',
-            component: Category
+            path: '/Categories',
+            name: 'Categories',
+            component: Categories
+        }, {
+            path: '/ArticleManagement',
+            name: 'ArticleManagement',
+            component: ArticleManagement
         }]
     }]
 })
