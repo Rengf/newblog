@@ -13,8 +13,8 @@
         <div class="body">
             <div class="nav" v-for="(article,index) in articles">
                 <ul>
-                    <li>{{index+1}}</li>
-                    <li>{{article.title}}</li>
+                    <li >{{index+1}}</li>
+                    <li :title=article.title>{{article.title}}</li>
                     <li>{{article.author}}</li>
                     <li>{{article.category.categoryName}}</li>
                     <li>{{article.addTime}}</li>
@@ -37,7 +37,11 @@ export default {
     };
   },
   created() {
-    axios.get("http://localhost:3000/admin/article").then(
+    this.getData();
+  },
+  methods: {
+    getData(){
+axios.get("http://localhost:3000/admin/article").then(
       response => {
         this.articles = response.data.article;
       },
@@ -45,18 +49,10 @@ export default {
         console.log("error:" + response);
       }
     );
-  },
-  methods: {
+    },
     deleteArticle(id) {
       axios.get("http://localhost:3000/admin/article/delete?id=" + id).then(response => {
-          axios.get("http://localhost:3000/admin/article").then(
-            response => {
-              this.articles = response.data.article;
-            },
-            response => {
-              console.log("error:" + response);
-            }
-          );
+          this.getData();
         },
         response=>{
             console.log("error:" + response);
@@ -79,6 +75,9 @@ li {
   height: 40px;
   text-align: center;
   line-height: 40px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .header {
   border-bottom: 2px solid #888;

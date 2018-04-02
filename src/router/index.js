@@ -13,7 +13,7 @@ import ArticleDetail from '@/components/home/ArticleDetail'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
     mode: 'history',
     routes: [{
         path: '/',
@@ -42,22 +42,54 @@ export default new Router({
         component: Admin,
         children: [{
             path: '/Admin',
+            meta: {
+                requireAuth: true,
+            },
         }, {
             path: '/Publish',
             name: 'Publish',
-            component: Publish
+            component: Publish,
+            meta: {
+                requireAuth: true,
+            },
         }, {
             path: '/User',
             name: 'User',
-            component: User
+            component: User,
+            meta: {
+                requireAuth: true,
+            },
         }, {
             path: '/Categories',
             name: 'Categories',
-            component: Categories
+            component: Categories,
+            meta: {
+                requireAuth: true,
+            },
         }, {
             path: '/ArticleManagement',
             name: 'ArticleManagement',
-            component: ArticleManagement
+            component: ArticleManagement,
+            meta: {
+                requireAuth: true,
+            },
         }]
     }]
 })
+
+router.beforeEach((to, from, next) => {
+    if (to.matched.some(res => res.meta.requireAuth)) { // 判断是否需要登录权限
+        if (localStorage.getItem('username')) { // 判断是否登录
+            next()
+        } else { // 没登录则跳转到登录界面
+            next({
+                path: '/Login',
+                query: { redirect: to.fullPath }
+            })
+        }
+    } else {
+        next()
+    }
+})
+
+export default router

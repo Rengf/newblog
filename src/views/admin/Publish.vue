@@ -16,15 +16,15 @@
           <p v-show="warningMsg">{{message}}</p>
           <div class="otherMsg">
               <div class="changCategory">
-                  <select name="category" v-model="selected">
+                <p>*选择分类</p>
+                  <select name="category" v-model="selected" class="select">
                       <option disabled value="">请选择</option>
                       <option v-for="category in category" :key="category._id" :value="category._id">{{category.categoryName}}</option>
                   </select>
-                  <p>{{selected.name}}</p>
               </div>
               <div class="newCategory">
-                  <p>*新建分类</p>
-                  <div>
+                  <p @click="showNewCategory" class="showNewCategory">*新建分类</p>
+                  <div v-show="newCategory">
                       <p>*分类名称</p>
                       <input type="text" v-model="categoryName" placeholder="输入分类名称">
                       <button @click="addCategory">确认添加分类</button>
@@ -54,7 +54,8 @@ export default {
       category: [],
       categoryName: "",
       categoryMsg: false,
-      categoryWarning: ""
+      categoryWarning: "",
+      newCategory:false,
     };
   },
   created() {
@@ -105,7 +106,6 @@ export default {
             this.warningMsg=true;
             return
         };
-        alert(this.selected)
         axios.post("http://localhost:3000/admin/article/add",{
             title:this.title,
             author:this.author,
@@ -117,7 +117,7 @@ export default {
                     this.warningMsg=true;
                     var that=this;
                     setTimeout(function(){
-                        that.$router.push({path:"/Admin"});
+                        that.$route.push({path:"/Admin"});
                     },3000);
                 }else{
                     this.message=response.data.message;
@@ -128,9 +128,55 @@ export default {
                 console.log("error:"+response)
             })
     },
+    showNewCategory(){
+      this.newCategory=!this.newCategory
+    }
   }
 };
 </script>
 <style scoped>
-
+.content{
+  width: 89%;
+  float: right;
+}
+.newCategory,
+.changCategory,
+.articleContent,
+.articleTitle,
+.articleAuthor{
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+p{
+  height: 30px;
+  line-height: 30px;
+}
+input{
+  width: 300px;
+  height: 30px;
+  margin:0 5px;
+  color: #333;
+  font-weight: bold;
+  text-indent: 1em;
+}
+textarea{
+  width: 500px;
+  height: 300px;
+  overflow: scroll;
+}
+.select{
+  width: 300px;
+  height: 30px;
+  color: dimgray;
+  font-size: 15px;
+  font-weight: bold;
+}
+.showNewCategory:hover{
+  cursor: pointer;
+}
+button{
+  width: 100px;
+  height: 30px;
+}
 </style>

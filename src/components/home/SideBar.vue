@@ -2,7 +2,7 @@
   <div class="siderBar">
       <h3 class="category">文章分类</h3>
       <ul class="nav">
-          <li v-for="(category,index) in categories" class="categoryList">
+          <li v-for="category in categories" class="categoryList">
               <i></i>
               <router-link :to="{path:'/category',query:{id:category._id}}">{{category.categoryName}}</router-link>
           </li>
