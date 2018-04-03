@@ -10,11 +10,11 @@
         name:'siderBar',
         data(){
             return{
-                navs:[{href:'/Admin',name:'后台首页'},
-                {href:'/User',name:'用户管理'},
-                {href:'/Categories',name:'分类管理'},
-                {href:'/ArticleManagement',name:'文章管理'},
-                {href:'/Publish',name:'文章发布'},
+                navs:[{href:'/admin',name:'后台首页'},
+                {href:'/Admin/User',name:'用户管理'},
+                {href:'/Admin/Categories',name:'分类管理'},
+                {href:'/Admin/ArticleManagement',name:'文章管理'},
+                {href:'/Admin/Publish',name:'文章发布'},
                 {href:'/',name:'退出后台'},
                 ],
             }

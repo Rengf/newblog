@@ -51,9 +51,9 @@ router.get('/category', function(req, res, next) {
 var data = {};
 router.get('/article', function(req, res, next) {
     data.category = req.query.id || '';
-    data.counts = 0
+    data.count = 0
     data.page = Number(req.query.page || 1);
-    data.limit = 10;
+    data.limit = 5;
     data.pages = 0;
     var belong = {};
     if (data.category) {

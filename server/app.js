@@ -24,7 +24,7 @@ app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     req.cookies = new Cookies(req, res);
     // 解析用户登录的信息
-    req.userInfo = null;
+    req.userInfo = {};
     if (req.cookies.get('userInfo')) {
         try {
             req.userInfo = JSON.parse(req.cookies.get('userInfo'));
@@ -55,8 +55,6 @@ mongoose.connect("mongodb://localhost:27017/vueblog", function(err) {
         console.log("数据库连接失败");
     } else {
         console.log("数据库连接成功");
-        app.listen(3000, function() {
-            console.log('app is listening on port 8085.');
-        })
+        app.listen(3000)
     }
 });

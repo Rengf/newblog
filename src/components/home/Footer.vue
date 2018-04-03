@@ -7,13 +7,19 @@
   </div>
 </template>
 <script>
+export default{
+  data(){
+    return{
+     
+    }
+  },
+}
 </script>
 <style scoped>
 .footer {
-  position: absolute;
+  clear: both;
   width: 100%;
   height: 30px;
-  bottom: 0;
   background: #ccc;
   opacity: 0.5;
   text-align: center;

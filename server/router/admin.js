@@ -59,7 +59,7 @@ router.use(function(req, res, next) {
 })
 
 /*首页*/
-router.get('', function(req, res, next) {
+router.get('/', function(req, res, next) {
     responseData.code = 0;
     responseData.message = '管理员，您好，欢迎来到管理员界面';
     responseData.userInfo = req.userInfo;
