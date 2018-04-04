@@ -1,13 +1,13 @@
 <template>
     <div class="header">
         <div class="loginBar">
-            <div class="loginRegist" v-show="showLogin">
+            <div class="loginRegist" v-if="showLogin">
                 <router-link :to="{path:'/Login'}" class="showLogin">登录</router-link>
                 <router-link :to="{path:'/Regist'}" class="showRegist">注册</router-link>
             </div>
-            <div class="showLogined" v-show="showLogined">
+            <div class="showLogined" v-else>
                 <router-link class="userName" :to="{path:'/Admin'}" v-if="isAdmin">管理员</router-link>
-                <router-link class="userName" :to="{path:'www.baidu.com'}" v-else="!isAdmin">{{username}}</router-link>
+                <router-link class="userName" :to="{path:'www.baidu.com'}" v-else>{{username}}</router-link>
                 <a href="javascript:;" @click="logout()" class="logout">退出</a>
             </div>
         </div>
@@ -28,7 +28,6 @@ export default {
     data() {
         return {
             showLogin: true,
-            showLogined: false,
             username: '',
             isAdmin:false,
             navs: [
@@ -42,9 +41,11 @@ export default {
     created() {
         axios.get("http://localhost:3000").then(
             response => {
-                if (!response.data.code) {
-                    this.showLogin = !this.showLogin;
-                    this.showLogined = !this.showLogined;
+                if (JSON.stringify(response.data.userInfo) == "{}") {
+                    this.showLogin = true;
+                }
+                else{
+                    this.showLogin=false
                     this.username = response.data.userInfo.username;
                     this.isAdmin = response.data.userInfo.isAdmin;
                 }
@@ -59,7 +60,7 @@ export default {
             axios.get("http://localhost:3000/api/user/logout").then(
                 response => {
                     this.showLogin = !this.showLogin;
-                    this.showLogined = !this.showLogined;
+                    this.user={};
                 },
                 response => {
                     console.log(response);

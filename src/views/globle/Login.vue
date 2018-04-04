@@ -19,7 +19,7 @@
                         <button @click="login" style="margin: 0;width: 100%;height: 48px;font-size: 18px;line-height: 48px">登录</button>
                     </div>
                     <div class="form-group">
-                        <span class="msg" style="top: 0;left: 0;color: #d44d44">{{noaccountwaring}}</span>
+                        <span class="msg" style="top: 0;left: 0;color: #d44d44">{{accountwarning}}</span>
                         <span>如果您还没有账户，则可在此</span>
                         <router-link style="padding: 0 5px" :to="{path:'/Regist'}">注册</router-link>
                     </div>
@@ -43,7 +43,7 @@ export default {
             password: '',
             usernamewaring:'',
             passwordwaring:'',
-            noaccountwaring:'',
+            accountwarning:'',
             isAdmin:false,
         }
     },

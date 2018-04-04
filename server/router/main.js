@@ -16,14 +16,8 @@ router.use(function(req, res, next) {
 
 /*  判断是否登录  */
 router.get('/', function(req, res, next) {
-    if (req.userInfo) {
-        responseData.code = 0;
-        responseData.message = '已登录';
-    } else {
-        responseData.code = 1;
-        responseData.message = '未登录';
-    }
     responseData.userInfo = req.userInfo;
+    console.log(responseData.userInfo)
     res.json(responseData);
 })
 

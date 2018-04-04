@@ -231,12 +231,11 @@ router.get('/article/add', function(req, res, next) {
 router.post('/article/add', function(req, res, next) {
     new Article({
         category: req.body.category,
-        categoryName: req.body.categoryName,
         title: req.body.title,
         content: req.body.content,
         author: req.body.author,
         addTime: new Date().Format("yyyy-MM-dd HH:mm:ss"),
-    }).save().then(function(res) {
+    }).save().then(function(newArticle) {
         responseData.code = 0;
         responseData.message = '文章发布成功';
         res.json(responseData)

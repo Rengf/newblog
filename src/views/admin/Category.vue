@@ -21,6 +21,7 @@
                 </ul>
             </div>
         </div>
+        <pager :url="url" @getData="getData" v-if="render"></pager>
         <div class="addCategory">
            <span>新建分类</span>
            <div>
@@ -42,6 +43,7 @@
   </div>
 </template>
 <script>
+import Pager from "../../components/pager"
 import axios from "axios";
 export default {
   name: "Category",
@@ -56,27 +58,14 @@ export default {
       editCategoryName: "",
       editwarning: false,
       editCategoryWarning: "",
-      count: 0,
-      limit: 0,
-      pages: 0,
-      page: 1
+     url:"http://localhost:3000/admin/category?page=",
+     render:false,
     };
   },
-  created() {
-    axios.get("http://localhost:3000/admin/category").then(
-      response => {
-        this.count = response.data.count;
-        this.limit = response.data.limit;
-        this.page = response.data.page;
-        this.pages = response.data.pages;
-        this.navs = response.data.category;
-      },
-      response => {
-        console.log("error:" + response);
-      }
-    );
-  },
   methods: {
+    getData(response){
+      this.navs=response.data.category;
+    },
     addCategory() {
       if (this.newCategoryName == "") {
         this.warning = true;
@@ -163,6 +152,9 @@ export default {
           );
         });
     }
+  },
+  components:{
+    Pager
   }
 };
 </script>

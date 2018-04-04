@@ -25,39 +25,38 @@
                 </ul>
             </div>
         </div>
+        <pager :url="url" @getData="getData" v-if="render"></pager>
   </div>
 </template>
 <script>
+import Pager from "../../components/pager";
 import axios from "axios";
 export default {
   name: "ArticleManagement",
   data() {
     return {
-      articles: []
+      articles: [],
+      render:false,
+      url:"http://localhost:3000/admin/article?page="
     };
   },
-  created() {
-    this.getData();
-  },
   methods: {
-    getData(){
-axios.get("http://localhost:3000/admin/article").then(
-      response => {
-        this.articles = response.data.article;
-      },
-      response => {
-        console.log("error:" + response);
-      }
-    );
+    getData(response) {
+          this.articles = response.data.article;
     },
     deleteArticle(id) {
-      axios.get("http://localhost:3000/admin/article/delete?id=" + id).then(response => {
+      axios.get("http://localhost:3000/admin/article/delete?id=" + id).then(
+        response => {
           this.getData();
         },
-        response=>{
-            console.log("error:" + response);
-        });
+        response => {
+          console.log("error:" + response);
+        }
+      );
     }
+  },
+  components: {
+    Pager
   }
 };
 </script>

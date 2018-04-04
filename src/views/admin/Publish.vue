@@ -59,7 +59,11 @@ export default {
     };
   },
   created() {
-    axios.get("http://localhost:3000/admin/article/add").then(
+    this.getData();
+  },
+  methods: {
+    getData(){
+      axios.get("http://localhost:3000/admin/article/add").then(
       response => {
         this.category = response.data.category;
       },
@@ -67,8 +71,7 @@ export default {
         console.log("error:" + response);
       }
     );
-  },
-  methods: {
+    },
     addCategory() {
       if (this.categoryName == "") {
         (this.categoryWarning = "类名不能为空"), (this.categoryMsg = true);
@@ -84,14 +87,7 @@ export default {
             } else {
               this.categoryWarning = response.data.message;
               this.categoryMsg = true;
-              axios.get("http://localhost:3000/admin/article/add").then(
-                response => {
-                  this.category = response.data.category;
-                },
-                response => {
-                  console.log("error:" + response);
-                }
-              );
+              this.getData();
               this.categoryName = "";
             }
           },
@@ -117,7 +113,7 @@ export default {
                     this.warningMsg=true;
                     var that=this;
                     setTimeout(function(){
-                        that.$route.push({path:"/Admin"});
+                        that.$router.push({path:"/Admin/ArticleManagement"});
                     },3000);
                 }else{
                     this.message=response.data.message;

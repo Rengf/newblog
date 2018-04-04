@@ -5,7 +5,7 @@
                 <span @click="prev" v-else>上一页</span>
             </div>
             <div>
-                <span>一共有 {{count}} 条,  共 {{pages}} 页, 当前第 {{page}} 页</span>
+                <span>一共有 {{count}} 条,  {{page}} / {{pages}} 页</span>
             </div>
             <div class="next">
                 <span @click="next" v-if="page<pages">下一页</span>
@@ -69,12 +69,26 @@ export default {
 </script>
 
 <style>
-.pager {
-  bottom: 5px;
-  width: 100%;
-  display: flex;
+.pager{
+  width:80%;
+  height: 50px;
+  margin: auto;
+  display:flex;
+  flex-flow: row; 
 }
-
-
-
+.prev,
+.count,
+.next{
+  width: 30%;
+  height: 25px;
+  float: left;
+  margin: 0 10px;
+  line-height: 25px;
+  text-align: center
+}
+.prev span:hover,
+.next span:hover{
+  cursor: pointer;
+  background: #ccc;
+}
 </style>

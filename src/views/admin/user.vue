@@ -20,36 +20,25 @@
                 </ul>
             </div>
         </div>
+        <pager :url="url" @getData="getData" v-show="render"></pager>
     </div>
 </template>
 <script>
 import axios from "axios";
+import Pager from "../../components/pager"
 export default {
     name: "user",
     data() {
         return {
             navs: [],
-            count: 0,
-            limit: 0,
-            pages: 0,
-            page: 1
+            url:"http://localhost:3000/admin/user?page=",
+            render:true,
         };
     },
-    created() {
-        axios.get("http://localhost:3000/admin/user").then(
-            response => {
-                this.count = response.data.count;
-                this.limit = response.data.limit;
-                this.page = response.data.page;
-                this.pages = response.data.pages;
-                this.navs = response.data.user;
-            },
-            response => {
-                console.log("error:" + response);
-            }
-        );
-    },
     methods: {
+        getData(response){
+            this.navs=response.data.user;
+        },
         deleteUser(id) {
             axios.get("http://localhost:3000/admin/user/delete?id=" + id).then(
                 response => {
@@ -71,6 +60,9 @@ export default {
                 }
             );
         }
+    },
+    components:{
+        Pager
     }
 };
 </script>
