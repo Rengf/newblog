@@ -177,8 +177,6 @@ router.get('/category/edit', function(req, res, next) {
 router.post('/category/edit', function(req, res, next) {
     var id = req.body.id;
     var categoryName = req.body.categoryName || '';
-    console.log(id);
-    console.log(categoryName);
     Category.findOne({
         _id: id
     }).then(function(category) {

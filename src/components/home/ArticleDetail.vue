@@ -2,37 +2,58 @@
   <div class="content">
       <div class="article">
           <div class="articleTitle">
-               <h4>{{article.title}}</h4>
+               <h4>{{title}}</h4>
           </div>
           <div class="articleMessage">
-              <span>发布时间：{{article.addTime.substring(0,10)}}</span>
-              <span>类别：{{article.category.categoryName}}</span>
-              <span>阅读量：{{article.views}}</span>
-              <span>评论：{{article.comments.length}}</span>
+              <span>发布时间：{{addTime}}</span>
+              <span>类别：{{categoryName}}</span>
+              <span>阅读量：{{views}}</span>
+              <span>评论：{{commentsLength}}</span>
           </div>
           <div class="articleContent" v-html="compiledMarkdown"></div>
       </div>
+      <comment :article='article' @getData='getData'></comment>
   </div>
 </template>
 <script>
     import axios from 'axios'
     import marked from 'marked'
+    import comment from './comments.vue'
     export default{
         name:'ArticleDetail',
         data(){
             return{
                 article:[],
+                title:'',
+                addTime:'',
+                categoryName:'',
+                views:'0',
+                commentsLength:'0'
             }
         },
         created(){
-            axios.get("http://localhost:3000/view?id="+this.$route.query["id"]).then(response=>{
-                this.article=response.data.article
+            this.getData();
+        },
+        methods:{
+            getData(){
+                axios.get("http://localhost:3000/view?id="+this.$route.query["id"]).then(response=>{
+                this.article=response.data.article;
+                this.title=this.article.title;
+                this.addtime=this.article.addTime.substring(0,10);
+                this.categoryName=this.article.category.categoryName;
+                this.views=this.article.views;
+                this.commentsLength=this.article.comments.length;
+                this.article.comments.reverse();
             })
+            }
         },
         computed:{
             compiledMarkdown:function(){
                 return marked(this.article.content,{sanitize:true})
             }
+        },
+        components:{
+            comment,
         }
     }
 </script>
