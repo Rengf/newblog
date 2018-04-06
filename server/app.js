@@ -6,6 +6,7 @@ var bodyParser = require('body-parser');
 // 加载cookies模块
 var Cookies = require('cookies');
 var path = require('path');
+var history = require('connect-history-api-fallback');
 // var cors = require('cors');
 // 创建app应用
 var app = express();
@@ -16,6 +17,7 @@ var User = require('./models/user.js');
 app.set('views', path.join(path.resolve(__dirname, '../'), 'dist'))
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'ejs');
+app.use(history()) // 这里千万要注意，要在static静态资源上面
 app.use(express.static(path.join(path.resolve(__dirname, '..'), 'dist')));
 // 配置body-parser 配置好后就可以通过request的body属性获取数据了
 app.use(bodyParser.urlencoded({ extended: true }));
