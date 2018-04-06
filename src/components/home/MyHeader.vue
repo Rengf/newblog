@@ -41,7 +41,7 @@ export default {
     created() {
         axios.get("/").then(
             response => {
-                if (JSON.stringify(response.data.userInfo) == "{}") {
+                if (JSON.stringify(response.data.userInfo) == "{}"||String(response.data.userInfo)=="undefined") {
                     this.showLogin = true;
                 }
                 else{

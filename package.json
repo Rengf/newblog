@@ -5,12 +5,13 @@
   "author": "Rengf <1032387871@qq.com>",
   "private": true,
   "scripts": {
-    "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
+    "dev": "webpack-dev-server  --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",
     "build": "node build/build.js"
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "ejs": "^2.5.8",
     "marked": "^0.3.19",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
