@@ -19,7 +19,7 @@ import axios from 'axios'
             }
         },
         created(){
-            axios.get("http://localhost:3000/category").then(response=>{
+            axios.get("/category").then(response=>{
                this.count = response.data.count;
               this.limit = response.data.limit;
               this.page = response.data.page;

@@ -37,7 +37,7 @@ export default {
     return {
       articles: [],
       render:false,
-      url:"http://localhost:3000/admin/article?page="
+      url:"/admin/article?page="
     };
   },
   methods: {
@@ -45,7 +45,7 @@ export default {
           this.articles = response.data.article;
     },
     deleteArticle(id) {
-      axios.get("http://localhost:3000/admin/article/delete?id=" + id).then(
+      axios.get("/admin/article/delete?id=" + id).then(
         response => {
           this.getData();
         },

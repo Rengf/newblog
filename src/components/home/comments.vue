@@ -41,7 +41,7 @@ export default {
   },
   methods: {
     onComment() {
-        axios.get("http://localhost:3000").then(response=>{
+        axios.get("/").then(response=>{
         if(JSON.stringify(response.data.userInfo) == "{}"){
             this.warning=true;
             this.warningMessage="你还没有登录，请登录后评论！";
@@ -56,7 +56,7 @@ export default {
             this.warningMessage="评论不能为空";
             return;
         }
-        axios.post("http://localhost:3000/comment/post",{
+        axios.post("/comment/post",{
             userName:this.userName,
             commentContent:this.commentContent,
             articleId:this.$route.query["id"],

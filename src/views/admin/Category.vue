@@ -58,7 +58,7 @@ export default {
       editCategoryName: "",
       editwarning: false,
       editCategoryWarning: "",
-     url:"http://localhost:3000/admin/category?page=",
+     url:"/admin/category?page=",
      render:false,
     };
   },
@@ -73,7 +73,7 @@ export default {
         return;
       }
       axios
-        .post("http://localhost:3000/admin/category/add", {
+        .post("/admin/category/add", {
           categoryName: this.newCategoryName
         })
         .then(response => {
@@ -83,7 +83,7 @@ export default {
           } else {
             this.addCategoryWarning = response.data.message;
             this.warning = true;
-            axios.get("http://localhost:3000/admin/category").then(
+            axios.get("/admin/category").then(
               response => {
                 this.count = response.data.count;
                 this.limit = response.data.limit;
@@ -99,9 +99,9 @@ export default {
         });
     },
     deleteCategory(id) {
-      axios.get("http://localhost:3000/admin/category/delete?id=" + id).then(
+      axios.get("/admin/category/delete?id=" + id).then(
         response => {
-          axios.get("http://localhost:3000/admin/category").then(
+          axios.get("/admin/category").then(
             response => {
               this.count = response.data.count;
               this.limit = response.data.limit;
@@ -120,7 +120,7 @@ export default {
       );
     },
     editCategory(id) {
-      axios.get("http://localhost:3000/admin/category/edit?id=" + id).then(
+      axios.get("/admin/category/edit?id=" + id).then(
         response => {
           this.edit = true;
           this.id=id;
@@ -131,14 +131,14 @@ export default {
       );
     },
     sureEditCategory() {
-      axios.post("http://localhost:3000/admin/category/edit", {
+      axios.post("/admin/category/edit", {
           id: this.id,
           categoryName: this.editCategoryName
         })
         .then(response => {
             this.editCategoryWarning = response.message;
             this.editwarning = true;
-            axios.get("http://localhost:3000/admin/category").then(
+            axios.get("/admin/category").then(
             response => {
               this.count = response.data.count;
               this.limit = response.data.limit;

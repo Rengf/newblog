@@ -14,7 +14,7 @@ export default{
         }
     },
     created(){
-        axios.get("http://localhost:3000/admin").then(response=>{
+        axios.get("/admin").then(response=>{
             this.message=response.data.message;
         },
         response=>{

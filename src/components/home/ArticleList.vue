@@ -48,7 +48,7 @@ export default {
   methods: {
     getData() {
       var id = this.$route.query["id"] || "";
-      axios.get("http://localhost:3000/article?id=" + id+"&page="+this.page).then(response => {
+      axios.get("/article?id=" + id+"&page="+this.page).then(response => {
         this.articles = response.data.article;
         this.count =response.data.count;
         this.limit=response.data.limit;

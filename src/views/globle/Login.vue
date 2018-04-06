@@ -60,7 +60,7 @@ export default {
                 this.warningInfo = "密码不能为空";
                 return;
             }
-            axios.post("http://localhost:3000/api/user/login", {
+            axios.post("/api/user/login", {
                     username: this.username,
                     password: this.password
                 })

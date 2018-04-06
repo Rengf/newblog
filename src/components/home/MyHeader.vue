@@ -39,7 +39,7 @@ export default {
         };
     },
     created() {
-        axios.get("http://localhost:3000").then(
+        axios.get("/").then(
             response => {
                 if (JSON.stringify(response.data.userInfo) == "{}") {
                     this.showLogin = true;
@@ -57,7 +57,7 @@ export default {
     },
     methods: {
         logout() {
-            axios.get("http://localhost:3000/api/user/logout").then(
+            axios.get("/api/user/logout").then(
                 response => {
                     this.showLogin = !this.showLogin;
                     this.user={};

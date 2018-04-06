@@ -31,7 +31,7 @@ export default {
     data() {
         return {
             navs: [],
-            url:"http://localhost:3000/admin/user?page=",
+            url:"/admin/user?page=",
             render:true,
         };
     },
@@ -40,9 +40,9 @@ export default {
             this.navs=response.data.user;
         },
         deleteUser(id) {
-            axios.get("http://localhost:3000/admin/user/delete?id=" + id).then(
+            axios.get("//admin/user/delete?id=" + id).then(
                 response => {
-                    axios.get("http://localhost:3000/admin/user").then(
+                    axios.get("/admin/user").then(
             response => {
                 this.count = response.data.count;
                 this.limit = response.data.limit;

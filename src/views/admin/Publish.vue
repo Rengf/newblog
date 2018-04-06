@@ -63,7 +63,7 @@ export default {
   },
   methods: {
     getData(){
-      axios.get("http://localhost:3000/admin/article/add").then(
+      axios.get("/admin/article/add").then(
       response => {
         this.category = response.data.category;
       },
@@ -77,7 +77,7 @@ export default {
         (this.categoryWarning = "类名不能为空"), (this.categoryMsg = true);
         return;
       }
-      axios.post("http://localhost:3000/admin/category/add", {
+      axios.post("/admin/category/add", {
         categoryName: this.categoryName
       }).then(
           response => {
@@ -102,7 +102,7 @@ export default {
             this.warningMsg=true;
             return
         };
-        axios.post("http://localhost:3000/admin/article/add",{
+        axios.post("/admin/article/add",{
             title:this.title,
             author:this.author,
             category:this.selected,

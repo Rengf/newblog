@@ -69,7 +69,7 @@ export default {
                 this.repasswordwarning = "两次输入的密码不一致";
                 return;
             }
-            axios.post("http://localhost:3000/api/user/register", {
+            axios.post("/api/user/register", {
                     username: this.username,
                     password: this.password,
                     repassword: this.repassword

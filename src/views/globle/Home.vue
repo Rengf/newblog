@@ -22,7 +22,7 @@ export default {
     };
   },
   created() {
-    axios.get("http://localhost:3000").then(
+    axios.get("/").then(
       response => {},
       response => {
         console.log("error:" + response);
