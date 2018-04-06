@@ -5,6 +5,7 @@ var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 // 加载cookies模块
 var Cookies = require('cookies');
+var path = require('path');
 // var cors = require('cors');
 // 创建app应用
 var app = express();
@@ -12,16 +13,19 @@ var app = express();
 
 var User = require('./models/user.js');
 
-
+app.set('views', path.join(path.resolve(__dirname, '../'), 'dist'))
+app.engine('html', require('ejs').renderFile);
+app.set('view engine', 'ejs');
+app.use(express.static(path.join(path.resolve(__dirname, '..'), 'dist')));
 // 配置body-parser 配置好后就可以通过request的body属性获取数据了
 app.use(bodyParser.urlencoded({ extended: true }));
 //在原有的基础上加上下面代码即可
 app.use(bodyParser.json())
     // 配置cookies
 app.use(function(req, res, next) {
-    res.header('Access-Control-Allow-Origin', 'http://localhost:8085');
-    res.header('Access-Control-Allow-Credentials', 'true');
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    //res.header('Access-Control-Allow-Origin', 'http://localhost:8085');
+    //res.header('Access-Control-Allow-Credentials', 'true');
+    // res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     req.cookies = new Cookies(req, res);
     // 解析用户登录的信息
     req.userInfo = {};

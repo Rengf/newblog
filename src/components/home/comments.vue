@@ -41,8 +41,9 @@ export default {
   },
   methods: {
     onComment() {
-        axios.get("/").then(response=>{
-        if(JSON.stringify(response.data.userInfo) == "{}"){
+      
+        axios.get("/main/log").then(response=>{
+        if(JSON.stringify(response.data.userInfo) == "{}"||String(response.data.userInfo)=="undefined"){
             this.warning=true;
             this.warningMessage="你还没有登录，请登录后评论！";
             return;
