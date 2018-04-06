@@ -53,7 +53,7 @@ router.get('/', function(req, res, next) {
 })
 
 /**获取分类列表 */
-router.get('/category', function(req, res, next) {
+router.get('/main/category', function(req, res, next) {
     var page = Number(req.query.page || 1);
     var limit = 10;
     var pages = 0;
@@ -74,7 +74,7 @@ router.get('/category', function(req, res, next) {
 
 /**获取文章列表 */
 var data = {};
-router.get('/article', function(req, res, next) {
+router.get('/main/article', function(req, res, next) {
     data.category = req.query.id || '';
     data.count = 0
     data.page = Number(req.query.page || 1);
@@ -100,7 +100,7 @@ router.get('/article', function(req, res, next) {
 })
 
 /*获取文章详情页*/
-router.get('/view', function(req, res, next) {
+router.get('/main/view', function(req, res, next) {
     var id = req.query.id;
     Article.findOne({
         _id: id,
@@ -113,7 +113,7 @@ router.get('/view', function(req, res, next) {
 })
 
 /**评论 */
-router.post('/comment/post', function(req, res, next) {
+router.post('/main/comment/post', function(req, res, next) {
     var articleId = req.body.articleId || '';
     if (req.userInfo) {
         var postData = {

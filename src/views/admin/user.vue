@@ -40,7 +40,7 @@ export default {
             this.navs=response.data.user;
         },
         deleteUser(id) {
-            axios.get("//admin/user/delete?id=" + id).then(
+            axios.get("/admin/user/delete?id=" + id).then(
                 response => {
                     axios.get("/admin/user").then(
             response => {

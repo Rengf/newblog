@@ -36,7 +36,7 @@
         },
         methods:{
             getData(){
-                axios.get("/view?id="+this.$route.query["id"]).then(response=>{
+                axios.get("/main/view?id="+this.$route.query["id"]).then(response=>{
                 this.article=response.data.article;
                 this.title=this.article.title;
                 this.addtime=this.article.addTime.substring(0,10);

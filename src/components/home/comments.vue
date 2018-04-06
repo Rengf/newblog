@@ -56,7 +56,7 @@ export default {
             this.warningMessage="评论不能为空";
             return;
         }
-        axios.post("/comment/post",{
+        axios.post("/main/comment/post",{
             userName:this.userName,
             commentContent:this.commentContent,
             articleId:this.$route.query["id"],
