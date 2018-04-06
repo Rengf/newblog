@@ -47,7 +47,7 @@ router.use(function(req, res, next) {
 })
 
 /*  判断是否登录  */
-router.get('/', function(req, res, next) {
+router.get('/main/log', function(req, res, next) {
     responseData.userInfo = req.userInfo;
     res.json(responseData);
 })
