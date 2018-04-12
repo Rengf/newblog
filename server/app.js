@@ -13,11 +13,11 @@ var app = express();
 // app.use(cors());
 
 var User = require('./models/user.js');
-
+app.use(history())
 app.set('views', path.join(path.resolve(__dirname, '../'), 'dist'))
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'ejs');
-app.use(history()) // 这里千万要注意，要在static静态资源上面
+//app.use(history()) // 这里千万要注意，要在static静态资源上面
 app.use(express.static(path.join(path.resolve(__dirname, '..'), 'dist')));
 // 配置body-parser 配置好后就可以通过request的body属性获取数据了
 app.use(bodyParser.urlencoded({ extended: true }));
