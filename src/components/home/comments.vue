@@ -22,92 +22,98 @@
 <script>
 import axios from "axios";
 export default {
-    name:'comments',
-    props:{
-        article:{
-            type:Object,
-            required:true
-        }
-    },
+  name: "comments",
+  props: {
+    article: {
+      type: Object,
+      required: true
+    }
+  },
   data() {
     return {
       commentContent: "",
       warning: false,
       warningMessage: "",
-      userName:''
+      userName: ""
     };
   },
-  created() {
-  },
+  created() {},
   methods: {
     onComment() {
-      
-        axios.get("/main/log").then(response=>{
-        if(JSON.stringify(response.data.userInfo) == "{}"||String(response.data.userInfo)=="undefined"){
-            this.warning=true;
-            this.warningMessage="你还没有登录，请登录后评论！";
-            return;
-        }else{
-            this.userName=response.data.userInfo.username;
-            alert(this,userName)
+      axios.get("/main/log").then(response => {
+        if (
+          JSON.stringify(response.data.userInfo) == "{}" ||
+          String(response.data.userInfo) == "undefined"
+        ) {
+          this.warning = true;
+          this.warningMessage = "你还没有登录，请登录后评论！";
+          return;
+        } else {
+          this.userName = response.data.userInfo.username;
         }
+      });
+      if (this.commentContent == "") {
+        this.warning = true;
+        this.warningMessage = "评论不能为空";
+        return;
+      }
+      axios
+        .post("/main/comment/post", {
+          userName: this.userName,
+          commentContent: this.commentContent,
+          articleId: this.$route.query["id"]
         })
-        if(this.commentContent==''){
-            this.warning=true;
-            this.warningMessage="评论不能为空";
-            return;
-        }
-        axios.post("/main/comment/post",{
-            userName:this.userName,
-            commentContent:this.commentContent,
-            articleId:this.$route.query["id"],
-        }).then(response=>{
-            if(response.data.code==404){
-                this.warningMessage=response.data.message;
-                this.warning=true;
-                return
-            }else{
-                this.commentContent='';
-                this.article=response.data.data;
-                this.article.comments.reverse();
-                this.warningMessage=response.data.message;
-                this.warning=true;
+        .then(
+          response => {
+            if (response.data.code == 404) {
+              this.warningMessage = response.data.message;
+              this.warning = true;
+              return;
+            } else {
+              this.commentContent = "";
+              this.article = response.data.data;
+              this.article.comments.reverse();
+              this.warningMessage = response.data.message;
+              this.warning = true;
             }
-        },
-        response=>{
-            console.log("error:"+response)
-        })
+          },
+          response => {
+            console.log("error:" + response);
+          }
+        );
     }
   }
 };
 </script>
 <style scoped>
-.comment{
-    width:95%;
-    margin:auto;
+.comment {
+  width: 95%;
+  margin: auto;
 }
-.warning{
-    color:#999;
-    font-weight: bold;
+.warning {
+  color: #999;
+  font-weight: bold;
 }
-.editing input{
-    width:80%;
-    height: 30px;
-    border-radius: 5px;
-    padding: 0 10px;
-    font-weight: bold;
-    color:#999;
+.editing input {
+  width: 80%;
+  height: 30px;
+  border-radius: 5px;
+  padding: 0 10px;
+  font-weight: bold;
+  color: #999;
 }
-.editing button{
-    height: 30px;
-    border-radius: 5px;
-    background: #abc;
-    font-weight: bold;
+.editing button {
+  height: 30px;
+  border-radius: 5px;
+  background: #abc;
+  font-weight: bold;
 }
-.editing input:focus,.editing button:focus{
-    outline: none;
+.editing input:focus,
+.editing button:focus {
+  outline: none;
 }
-.postTime,.postMan{
-    color:#8cc6ff;
+.postTime,
+.postMan {
+  color: #8cc6ff;
 }
 </style>

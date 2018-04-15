@@ -6,6 +6,7 @@
                 <router-link :to="{path:'/Regist'}" class="showRegist">注册</router-link>
             </div>
             <div class="showLogined" v-else>
+                <img v-bin:src="{path:HeadPortrait}" alt="">
                 <router-link class="userName" :to="{path:'/Admin'}" v-if="isAdmin">管理员</router-link>
                 <router-link class="userName" :to="{path:'www.baidu.com'}" v-else>{{username}}</router-link>
                 <a href="javascript:;" @click="logout()" class="logout">退出</a>
@@ -28,8 +29,10 @@ export default {
     data() {
         return {
             showLogin: true,
+            
             username: '',
             isAdmin:false,
+            HeadPortrait:'',
             navs: [
                 { title: "首页", href: "/" },
                 { title: "关于我", href: "/" },
@@ -39,16 +42,16 @@ export default {
         };
     },
     created() {
-
         axios.get("/main/log").then(
             response => {
                 if (JSON.stringify(response.data.userInfo) == "{}"||String(response.data.userInfo)=="undefined") {
                     this.showLogin = true;
                 }
                 else{
-                    this.showLogin=false
+                    this.showLogin=false;
                     this.username = response.data.userInfo.username;
                     this.isAdmin = response.data.userInfo.isAdmin;
+                    this.HeadPortrait=response.data.userInfo.HeadPortrait;
                 }
             },
             response => {

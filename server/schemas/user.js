@@ -7,4 +7,5 @@ module.exports = new mongoose.Schema({
         default: false,
     },
     registtime: String,
+    HeadPortrait: String,
 })

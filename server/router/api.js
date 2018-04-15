@@ -1,13 +1,13 @@
-var express = require('express');
-var router = express.Router();
-var User = require('../models/user');
+let express = require('express');
+let router = express.Router();
+let User = require('../models/user');
 const crypto = require("crypto");
 //引入生成随机数的
 const random = require("./../utils/random");
 //引入baset64加密的
 const Base64 = require("./../utils/base64");
 /* GET home page. */
-var responseData;
+let responseData;
 router.use(function(req, res, next) {
     responseData = {
         code: 0,
@@ -16,7 +16,7 @@ router.use(function(req, res, next) {
     next();
 });
 Date.prototype.Format = function(fmt) {
-        var o = {
+        let o = {
             "M+": this.getMonth() + 1, //月份         
             "d+": this.getDate(), //日         
             "h+": this.getHours() % 12 == 0 ? 12 : this.getHours() % 12, //小时         
@@ -26,7 +26,7 @@ Date.prototype.Format = function(fmt) {
             "q+": Math.floor((this.getMonth() + 3) / 3), //季度         
             "S": this.getMilliseconds() //毫秒         
         };
-        var week = {
+        let week = {
             "0": "/u65e5",
             "1": "/u4e00",
             "2": "/u4e8c",
@@ -41,7 +41,7 @@ Date.prototype.Format = function(fmt) {
         if (/(E+)/.test(fmt)) {
             fmt = fmt.replace(RegExp.$1, ((RegExp.$1.length > 1) ? (RegExp.$1.length > 2 ? "/u661f/u671f" : "/u5468") : "") + week[this.getDay() + ""]);
         }
-        for (var k in o) {
+        for (let k in o) {
             if (new RegExp("(" + k + ")").test(fmt)) {
                 fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
             }
@@ -54,8 +54,8 @@ router.post('/user/register', function(req, res, next) {
     let base64 = new Base64();
 
     let base64Random = base64.encode(randomWord);
-    var username = req.body.username;
-    var password = req.body.password;
+    let username = req.body.username;
+    let password = req.body.password;
     let newPas = base64Random + password;
     let md5 = crypto.createHash("md5");
     let md5Pas = md5.update(newPas).digest("hex");
@@ -70,10 +70,11 @@ router.post('/user/register', function(req, res, next) {
             res.json(responseData);
             return;
         }
-        var user = new User({
+        let user = new User({
             username: username,
             password: lastPassword,
             registtime: new Date().Format("yyyy-MM-dd HH:mm:ss"),
+            HeadPortrait: "https://qlogo4.store.qq.com/qzone/1032387871/1032387871/100?1498846413",
         })
         return user.save();
     }).then(function(newUserInfo) {
@@ -84,8 +85,8 @@ router.post('/user/register', function(req, res, next) {
 
 /*  登录 */
 router.post('/user/login', function(req, res, next) {
-    var username = req.body.username;
-    var password = req.body.password;
+    let username = req.body.username;
+    let password = req.body.password;
 
     User.findOne({
         username: username,
