@@ -1,5 +1,9 @@
 let express = require('express');
 let router = express.Router();
+var fs = require('fs');
+var path = require('path');
+var multipart = require('connect-multiparty');
+var multipartMiddleware = multipart();
 let User = require('../models/user');
 const crypto = require("crypto");
 //引入生成随机数的
@@ -113,13 +117,67 @@ router.post('/user/login', function(req, res, next) {
             _id: userInfo.id,
             username: username,
             isAdmin: userInfo.isAdmin,
+            HeadPortrait: userInfo.HeadPortrait,
         }
         req.cookies.set('userInfo', JSON.stringify({
             _id: userInfo.id,
             username: userInfo.username,
+            HeadPortrait: userInfo.HeadPortrait,
         }), { httpOnly: false })
         res.json(responseData);
         return;
+    })
+})
+
+/**头像修改 */
+router.post('/user/edit', multipartMiddleware, function(req, res, next) {
+    console.log(req.body.data)
+    var id = req.body.id;
+    var headPortrait = req.files.myFile;
+    var filePath = headPortrait.path || '';
+    var originalFilename = headPortrait.originalFilename;
+    User.findOne({
+        _id: id
+    }).then(function(userInfo) {
+        if (!userInfo) {
+            responseData.code = 200;
+            responseData.message = "无此用户";
+            res.json(responseData);
+            return Promise.reject();
+        } else {
+            if (originalFilename) {
+                fs.readFile(filePath, function(err, data) {
+                    var newPath = path.join(__dirname, '../../', 'static/images/image' + originalFilename);
+                    fs.writeFile(newPath, data, function(err) {
+                        if (err) {
+                            responseData.code = 500;
+                            responseData.message = "上传失败";
+                            res.json(responseData);
+                            return;
+                        } else {
+                            var HeadPortrait = '../../../static/images/image' + originalFilename;
+                            return User.update({
+                                _id: id
+                            }, {
+                                HeadPortrait: HeadPortrait,
+                            }).then(
+                                User.findOne({
+                                    _id: id
+                                }).then(function(userInfo) {
+                                    req.cookies.set('userInfo', JSON.stringify({
+                                        _id: userInfo.id,
+                                        username: userInfo.username,
+                                        HeadPortrait: userInfo.HeadPortrait,
+                                    }), { httpOnly: false })
+                                    res.json(responseData);
+                                    return;
+                                })
+                            )
+                        }
+                    })
+                })
+            }
+        }
     })
 })
 

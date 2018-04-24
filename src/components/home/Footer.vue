@@ -2,7 +2,7 @@
   <div class="footer">
       <p>
         <span>Copyright 2018 by Renguofeng</span>
-        <a href="/">ICP备******号</a>
+        <a href="http://www.miitbeian.gov.cn/">渝ICP备18004455号</a>
       </p>
   </div>
 </template>
@@ -20,20 +20,20 @@ export default{
   clear: both;
   width: 100%;
   height: 30px;
-  background: #ccc;
-  opacity: 0.5;
+  background: #333;
   text-align: center;
+  padding: 20px 0
 }
 p {
     width:100%;
   display: block;
   line-height: 30px;
-  color: #000;
+  color: #a5a4a4;
   font-size: 15px;
   
 }
 a {
-  color: #000;
+  color: #a5a4a4;
   font-size: 15px;
 }
 </style>

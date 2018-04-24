@@ -20,13 +20,15 @@ app.set('view engine', 'ejs');
 //app.use(history()) // 这里千万要注意，要在static静态资源上面
 app.use(express.static(path.join(path.resolve(__dirname, '..'), 'dist')));
 // 配置body-parser 配置好后就可以通过request的body属性获取数据了
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json({ uploadDir: '/images/', keepExtensions: true, limit: '50mb' }));
 //在原有的基础上加上下面代码即可
 app.use(bodyParser.json())
     // 配置cookies
 app.use(function(req, res, next) {
-    //res.header('Access-Control-Allow-Origin', 'http://localhost:8085');
-    //res.header('Access-Control-Allow-Credentials', 'true');
+    // res.header('Access-Control-Allow-Origin', 'http://localhost:8085');
+    // res.header('Access-Control-Allow-Credentials', 'true');
     // res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     req.cookies = new Cookies(req, res);
     // 解析用户登录的信息
@@ -35,6 +37,7 @@ app.use(function(req, res, next) {
         try {
             req.userInfo = JSON.parse(req.cookies.get('userInfo'));
             // 获取当前登录用户的类型:是否是管理员
+
             User.findById(req.userInfo._id).then(function(userInfo) {
                 req.userInfo.isAdmin = Boolean(userInfo.isAdmin);
                 next();

@@ -79,7 +79,9 @@ export default {
                         this.accountwarning = response.data.message;
                         return;
                     } else {
-                        alert(response.data.message)
+                       alert(response.data.message);
+                    this.$router.push({path:'/Login'})
+                       
                     }
                 },response=>{
     console.log('error:'+response);

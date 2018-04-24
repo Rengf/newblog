@@ -22,12 +22,7 @@ export default {
     };
   },
   created() {
-    axios.get("/").then(
-      response => {},
-      response => {
-        console.log("error:" + response);
-      }
-    );
+    
   },
   mounted() {
     this.minHeight = document.documentElement.clientHeight - 131;

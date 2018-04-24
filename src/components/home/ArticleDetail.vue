@@ -17,7 +17,6 @@
 </template>
 <script>
     import axios from 'axios'
-    import marked from 'marked'
     import comment from './comments.vue'
     export default{
         name:'ArticleDetail',
@@ -27,8 +26,8 @@
                 title:'',
                 addTime:'',
                 categoryName:'',
-                views:'0',
-                commentsLength:'0'
+                views:0,
+                commentsLength:0
             }
         },
         created(){
@@ -43,13 +42,15 @@
                 this.categoryName=this.article.category.categoryName;
                 this.views=this.article.views;
                 this.commentsLength=this.article.comments.length;
-                this.article.comments.reverse();
+            },
+            response=>{
+                console.log("error:"+response)
             })
             }
         },
         computed:{
             compiledMarkdown:function(){
-                return marked(this.article.content,{sanitize:true})
+                return this.article.content
             }
         },
         components:{

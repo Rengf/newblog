@@ -20,7 +20,7 @@
                 </ul>
             </div>
         </div>
-        <pager :url="url" @getData="getData" v-show="render"></pager>
+        <pager :url="url" @getData="getData"></pager>
     </div>
 </template>
 <script>
@@ -32,7 +32,6 @@ export default {
         return {
             navs: [],
             url:"/admin/user?page=",
-            render:true,
         };
     },
     methods: {

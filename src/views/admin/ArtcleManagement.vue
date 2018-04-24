@@ -16,11 +16,11 @@
                     <li >{{index+1}}</li>
                     <li :title=article.title>{{article.title}}</li>
                     <li>{{article.author}}</li>
-                    <li>{{article.category.categoryName}}</li>
+                    <li>{{article.category&&article.category.categoryName?article.category.categoryName:''}}</li>
                     <li>{{article.addTime}}</li>
                     <li class="editArticle">
                         <a @click="deleteArticle(article._id)">删除</a>
-                        <a @click="editArticle(article._id)">编辑</a>
+                        <router-link :to="{path:'/Admin/ArticleEdit',query:{id:article._id}}">编辑</router-link>
                     </li>
                 </ul>
             </div>
@@ -47,7 +47,18 @@ export default {
     deleteArticle(id) {
       axios.get("/admin/article/delete?id=" + id).then(
         response => {
-          this.getData();
+          axios.get("/admin/article").then(
+            response => {
+              this.count = response.data.count;
+              this.limit = response.data.limit;
+              this.page = response.data.page;
+              this.pages = response.data.pages;
+              this.articles = response.data.article;
+            },
+            response => {
+              console.log("error:" + response);
+            }
+          );
         },
         response => {
           console.log("error:" + response);

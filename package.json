@@ -13,8 +13,11 @@
     "axios": "^0.18.0",
     "connect-history-api-fallback": "^1.5.0",
     "ejs": "^2.5.8",
+    "element-ui": "^2.3.4",
     "marked": "^0.3.19",
     "vue": "^2.5.2",
+    "vue-image-crop-upload": "^2.2.3",
+    "vue-quill-editor": "^3.0.6",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1"
   },

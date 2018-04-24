@@ -6,9 +6,8 @@
                 <router-link :to="{path:'/Regist'}" class="showRegist">注册</router-link>
             </div>
             <div class="showLogined" v-else>
-                <img v-bin:src="{path:HeadPortrait}" alt="">
-                <router-link class="userName" :to="{path:'/Admin'}" v-if="isAdmin">管理员</router-link>
-                <router-link class="userName" :to="{path:'www.baidu.com'}" v-else>{{username}}</router-link>
+                <router-link class="userName" :to="{path:'/Admin'}" v-if="isAdmin"><img :src=HeadPortrait alt="HeadPortrait" class="HeadPortrait">管理员</router-link>
+                <router-link class="userName" :to="{path:'/HeadPortrait'}" v-else><img :src=HeadPortrait alt="HeadPortrait" class="HeadPortrait">{{username}}</router-link>
                 <a href="javascript:;" @click="logout()" class="logout">退出</a>
             </div>
         </div>
@@ -29,7 +28,6 @@ export default {
     data() {
         return {
             showLogin: true,
-            
             username: '',
             isAdmin:false,
             HeadPortrait:'',
@@ -134,5 +132,13 @@ export default {
 }
 .nav a:hover {
     background: #ccc;
+}
+.HeadPortrait{
+    width: 30px;
+    height:30px;
+    border-radius: 100%;
+    display: inline-block;
+    vertical-align:text-top;
+    margin-right:20px;
 }
 </style>

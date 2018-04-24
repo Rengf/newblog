@@ -72,8 +72,7 @@ export default {
         this.addCategoryWarning = "类名不能为空";
         return;
       }
-      axios
-        .post("/admin/category/add", {
+      axios.post("/admin/category/add", {
           categoryName: this.newCategoryName
         })
         .then(response => {

@@ -261,6 +261,52 @@ router.get('/article', function(req, res, next) {
     })
 })
 
+/**编辑文章 */
+router.get('/article/edit', function(req, res, next) {
+    var id = req.query.id;
+    Article.findOne({
+        _id: id,
+    }).then(function(article) {
+        responseData.code = 0;
+        responseData.message = '分类信息';
+        responseData.article = article;
+        res.json(responseData);
+    })
+})
+
+router.post('/article/edit', function(req, res, next) {
+    var id = req.query.id;
+    var category = req.body.category;
+    var title = req.body.title;
+    var content = req.body.content;
+    var author = req.body.author;
+    var addTime = new Date().Format("yyyy-MM-dd HH:mm:ss");
+    Article.findOne({
+        _id: id
+    }).then(function(article) {
+        if (!article) {
+            responseData.code = 1;
+            responseData.message = '没有该文章';
+            res.json(responseData);
+            return Promise.reject();
+        } else {
+            return Article.update({
+                _id: id
+            }, {
+                category: category,
+                title: title,
+                content: content,
+                author: author,
+                addTime: new Date().Format("yyyy-MM-dd HH:mm:ss"),
+            })
+        }
+    }).then(function() {
+        responseData.code = 0;
+        responseData.message = '修改成功';
+        res.json(responseData);
+    })
+})
+
 /**文章删除 */
 router.get('/article/delete', function(req, res, next) {
     var id = req.query.id;

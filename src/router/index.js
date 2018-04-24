@@ -11,6 +11,8 @@ import Categories from '@/views/admin/Category'
 import ArticleList from '@/components/home/ArticleList'
 import ArticleManagement from '@/views/admin/ArtcleManagement'
 import ArticleDetail from '@/components/home/ArticleDetail'
+import ArticleEdit from '@/views/admin/ArticleEdit'
+import HeadPortrait from '@/views/globle/HeadPortrait'
 
 Vue.use(Router)
 
@@ -71,7 +73,17 @@ const router = new Router({
             meta: {
                 requireAuth: true,
             },
+        }, {
+            path: '/Admin/ArticleEdit',
+            component: ArticleEdit,
+            meta: {
+                requireAuth: true,
+            },
         }]
+    }, {
+        path: '/HeadPortrait',
+        name: 'HeadPortrait',
+        component: HeadPortrait,
     }]
 })
 

@@ -34,10 +34,11 @@ export default {
       commentContent: "",
       warning: false,
       warningMessage: "",
-      userName: ""
+      userName: "",
     };
   },
-  created() {},
+  created() {
+  },
   methods: {
     onComment() {
       axios.get("/main/log").then(response => {
@@ -50,37 +51,35 @@ export default {
           return;
         } else {
           this.userName = response.data.userInfo.username;
+          if (this.commentContent == "") {
+            this.warning = true;
+            this.warningMessage = "评论不能为空";
+            return;
+          }
+          axios.post("/main/comment/post", {
+              userName: this.userName,
+              commentContent: this.commentContent,
+              articleId: this.$route.query["id"]
+            }).then(
+              response => {
+                if (response.data.code == 404) {
+                  this.warningMessage = response.data.message;
+                  this.warning = true;
+                  return;
+                } else {
+                  this.commentContent = "";
+                  this.article = response.data.data;
+                  // this.article.comments.reverse();
+                  this.warningMessage = response.data.message;
+                  this.warning = true;
+                }
+              },
+              response => {
+                console.log("error:" + response);
+              }
+            );
         }
       });
-      if (this.commentContent == "") {
-        this.warning = true;
-        this.warningMessage = "评论不能为空";
-        return;
-      }
-      axios
-        .post("/main/comment/post", {
-          userName: this.userName,
-          commentContent: this.commentContent,
-          articleId: this.$route.query["id"]
-        })
-        .then(
-          response => {
-            if (response.data.code == 404) {
-              this.warningMessage = response.data.message;
-              this.warning = true;
-              return;
-            } else {
-              this.commentContent = "";
-              this.article = response.data.data;
-              this.article.comments.reverse();
-              this.warningMessage = response.data.message;
-              this.warning = true;
-            }
-          },
-          response => {
-            console.log("error:" + response);
-          }
-        );
     }
   }
 };

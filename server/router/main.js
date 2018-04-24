@@ -124,7 +124,7 @@ router.post('/main/comment/post', function(req, res, next) {
         Article.findOne({
             _id: articleId,
         }).populate('category').then(function(article) {
-            article.comments.push(postData);
+            article.comments.unshift(postData);
             return article.save();
         }).then(function(newArticle) {
             responseData.message = '评论成功';

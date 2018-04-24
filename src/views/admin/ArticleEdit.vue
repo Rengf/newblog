@@ -1,25 +1,18 @@
 <template>
   <div class="content">
-    <div class="form">
+      <div class="form">
           <div class="articleTitle">
               <P>*文章标题</P>
-              <input type="text" class="title" v-model="title" placeholder="文章标题" autofocus>
+              <input type="text" class="title" v-model="article.title" placeholder="文章标题" autofocus>
           </div>
           <div class="articleAuthor">
               <P>*文章作者</P>
-              <input type="text" class="title" v-model="author" placeholder="文章作者">
+              <input type="text" class="title" v-model="article.author" placeholder="文章作者">
           </div>
           <div class="articleContent">
               <p>*文章内容</p>
-      <input type="button" value="切换裁切" @click="canCrop=!canCrop">
-      <editor ref="myTextEditor"
-            :fileName="'myFile'"
-            :canCrop="canCrop"
-            :uploadUrl="uploadUrl"
-            v-model="content">
-      </editor>
-    <div v-html="content"></div>
-    </div>
+              <textarea id="editor" cols="30" rows="10" v-model="article.content" placeholder="文章内容"></textarea>
+          </div>
           <p v-show="warningMsg">{{message}}</p>
           <div class="otherMsg">
               <div class="changCategory">
@@ -40,7 +33,7 @@
               </div>
           </div>
           <div class="button">
-              <button type="button" @click="publish">发布</button>
+              <button type="button" @click="publish">确认修改</button>
               <button type="button">存草稿</button>
           </div>
       </div>
@@ -48,48 +41,50 @@
 </template>
 <script>
 import axios from "axios";
-import editor from "./editor/Quilleditor";
 export default {
-  name: "Publish",
+  name: "ArticleEdit",
   data() {
     return {
-      content: "",
-      title: "",
-      author: "",
+      article: [],
+      category: [],
+      categoryName: "",
       warningMsg: false,
       message: "",
       selected: "",
-      category: [],
-      categoryName: "",
       categoryMsg: false,
       categoryWarning: "",
-      newCategory: false,
-      canCrop: false,
-      uploadUrl: "/api/user/edit"
+      newCategory: false
     };
   },
   created() {
-    this.getData();
+    ths.getData();
   },
   methods: {
     getData() {
-      axios.get("/admin/article/add").then(
+      axios.get("/admin/article/edit?id=" + this.$route.query["id"]).then(
         response => {
-          this.category = response.data.category;
+          this.article = response.data.article;
+          axios.get("/admin/article/add").then(
+            response => {
+              this.category = response.data.category;
+            },
+            response => {
+              console.log("error:" + response);
+            }
+          );
         },
         response => {
           console.log("error:" + response);
         }
       );
-    },
+      },
     addCategory() {
       if (this.categoryName == "") {
-        this.categoryWarning = "类名不能为空";
-        this.categoryMsg = true;
+        (this.categoryWarning = "类名不能为空"), (this.categoryMsg = true);
         return;
       }
       axios
-        .post("/admin/category/add", {
+        .post("/admin/category/edit", {
           categoryName: this.categoryName
         })
         .then(
@@ -115,12 +110,11 @@ export default {
         this.warningMsg = true;
         return;
       }
-      axios
-        .post("/admin/article/add", {
-          title: this.title,
-          author: this.author,
+      axios.post("/admin/article/edit?id="+this.$route.query["id"], {
+          title: this.article.title,
+          author: this.article.author,
           category: this.selected,
-          content: this.content
+          content: this.article.content
         })
         .then(
           response => {
@@ -144,9 +138,6 @@ export default {
     showNewCategory() {
       this.newCategory = !this.newCategory;
     }
-  },
-  components: {
-    editor
   }
 };
 </script>
